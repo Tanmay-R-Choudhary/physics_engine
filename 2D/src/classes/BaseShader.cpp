@@ -1,6 +1,7 @@
-#include "BaseShader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include "BaseShader.h"
 
 #include <string>
 #include <fstream>
@@ -42,7 +43,7 @@ BaseShader::BaseShader(const char* vertexShaderFilepath, const char* fragmentSha
     int success;
     char infoLog[512];
     
-    vertex = glCreateShader(GL_VERTEX_SHADER); // TODO: MAKE THIS SHIT WORK
+    vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vsCode, nullptr);
     glCompileShader(vertex);
     
