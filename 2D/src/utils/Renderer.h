@@ -12,7 +12,7 @@
 class Renderer{
 private:
     GLFWwindow* applicationWindow;
-    const char* applicationName;
+    const char* windowName;
     unsigned int SCR_WIDTH;
     unsigned int SCR_HEIGHT;
 

@@ -7,7 +7,7 @@
 #include <iostream>
 
 Renderer::Renderer(const char* appName, unsigned int screenWidth, unsigned int screenHeight) {
-    applicationName = appName;
+    windowName = appName;
     SCR_WIDTH = screenWidth;
     SCR_HEIGHT = screenHeight;
 

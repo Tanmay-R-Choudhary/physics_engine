@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "classes/Renderer.h"
-#include "classes/Rigidbody.h"
+#include "utils/Renderer.h"
+#include "utils/Rigidbody.h"
 
 #include <iostream>
 
