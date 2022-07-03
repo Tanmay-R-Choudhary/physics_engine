@@ -19,7 +19,6 @@ private:
     std::vector<Rigidbody> rigidbodyList;
 
     void processInput(GLFWwindow* window);
-    // void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
 
 public:
     Renderer(const char* appName, unsigned int screenWidth, unsigned int screenHeight);

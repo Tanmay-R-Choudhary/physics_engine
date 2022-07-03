@@ -1,3 +1,7 @@
+#include "../imgui/imgui.h"
+#include "../imgui/imgui_impl_glfw.h"
+#include "../imgui/imgui_impl_opengl3.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -20,12 +24,9 @@ Renderer::Renderer(const char* appName, unsigned int screenWidth, unsigned int s
     applicationWindow = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, appName, NULL, NULL);
 
     glfwMakeContextCurrent(applicationWindow);
-    gladLoadGL();
-    // glfwSetFramebufferSizeCallback(applicationWindow, frameBufferSizeCallback);
 
-    int w, h;
-    glfwGetWindowSize(applicationWindow, &w, &h);
-    glViewport(0, 0, w, h); //ERROR HERE
+    glfwSetWindowAttrib(applicationWindow, GLFW_RESIZABLE, false);
+    gladLoadGL();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -45,6 +46,18 @@ void Renderer::processInput(GLFWwindow* window) {
 
 void Renderer::beginRenderLoop() {
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+    ImGui::StyleColorsClassic();
+
+    ImGui_ImplGlfw_InitForOpenGL(applicationWindow, true);
+    ImGui_ImplOpenGL3_Init("version 330");
+
+
+
     while (!glfwWindowShouldClose(applicationWindow)) {
         processInput(applicationWindow);
 
@@ -62,6 +75,6 @@ void Renderer::beginRenderLoop() {
     for (Rigidbody rb : rigidbodyList) {
         rb.releaseResources();
     }
-
+    
     glfwTerminate();
 }
