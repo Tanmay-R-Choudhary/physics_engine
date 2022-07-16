@@ -10,7 +10,8 @@
 
 #include <iostream>
 
-Renderer::Renderer(const char* appName, unsigned int screenWidth, unsigned int screenHeight) {
+Renderer::Renderer(const char* appName, unsigned int screenWidth, unsigned int screenHeight) 
+{
     windowName = appName;
     SCR_WIDTH = screenWidth;
     SCR_HEIGHT = screenHeight;
@@ -34,29 +35,27 @@ Renderer::Renderer(const char* appName, unsigned int screenWidth, unsigned int s
     }
 }
 
-void Renderer::addBodyTorigidbodyList(Rigidbody body) {
+void Renderer::addBodyTorigidbodyList(Rigidbody body) 
+{
     rigidbodyList.push_back(body);
 }
 
-void Renderer::processInput(GLFWwindow* window) {
+void Renderer::processInput(GLFWwindow* window) 
+{
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
 }
 
-void Renderer::beginRenderLoop() {
-
+void Renderer::beginRenderLoop() 
+{
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    ImGui::StyleColorsClassic();
-
     ImGui_ImplGlfw_InitForOpenGL(applicationWindow, true);
-    ImGui_ImplOpenGL3_Init("version 330");
-
-
+    ImGui_ImplOpenGL3_Init("#version 330");
 
     while (!glfwWindowShouldClose(applicationWindow)) {
         processInput(applicationWindow);
@@ -64,17 +63,52 @@ void Renderer::beginRenderLoop() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | 
+            ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | 
+            ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | 
+            ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
+
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->Pos);
+        ImGui::SetNextWindowSize(viewport->Size);
+        ImGui::SetNextWindowViewport(viewport->ID);
+
+        ImGui::Begin("Invisible Window", nullptr, windowFlags);
+
+        ImGuiID dockSpaceId = ImGui::GetID("InvisibleWindowDockspace");
+
+        ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+        ImGui::End();
+
+        ImGui::Begin("test 1");
+        ImGui::Text("this shit should work");
+        ImGui::End();
+
+        ImGui::Begin("test 2");
+        ImGui::Text("this shit should also work");
+        ImGui::End();
+
         for (Rigidbody rb : rigidbodyList) {
             rb.drawBody();
         }
 
         glfwSwapBuffers(applicationWindow);
         glfwPollEvents();
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     for (Rigidbody rb : rigidbodyList) {
         rb.releaseResources();
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     
     glfwTerminate();
 }

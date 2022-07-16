@@ -9,7 +9,8 @@
 
 #include <iostream>
 
-class Renderer{
+class Renderer
+{
 private:
     GLFWwindow* applicationWindow;
     const char* windowName;

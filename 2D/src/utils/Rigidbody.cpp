@@ -4,7 +4,8 @@
 #include "Rigidbody.h"
 #include "BaseShader.h"
 
-Rigidbody::Rigidbody(const char* vertexShaderFilepath, const char* fragmentShaderFilepath) : shader(vertexShaderFilepath, fragmentShaderFilepath) {
+Rigidbody::Rigidbody(const char* vertexShaderFilepath, const char* fragmentShaderFilepath) : shader(vertexShaderFilepath, fragmentShaderFilepath) 
+{
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -20,14 +21,16 @@ Rigidbody::Rigidbody(const char* vertexShaderFilepath, const char* fragmentShade
     glBindVertexArray(0); 
 }
 
-void Rigidbody::drawBody() {
+void Rigidbody::drawBody() 
+{
     shader.useProgram();
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 3);
     glBindVertexArray(0);
 }
 
-void Rigidbody::releaseResources() {
+void Rigidbody::releaseResources() 
+{
     glDeleteBuffers(1, &VAO);
     glDeleteBuffers(1, &VBO);
     shader.deleteProgram();

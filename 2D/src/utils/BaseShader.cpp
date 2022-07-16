@@ -8,7 +8,8 @@
 #include <sstream>
 #include <iostream>
 
-BaseShader::BaseShader(const char* vertexShaderFilepath, const char* fragmentShaderFilepath) {
+BaseShader::BaseShader(const char* vertexShaderFilepath, const char* fragmentShaderFilepath) 
+{
     std::string vsSourceCode, fsSourceCode;
     std::ifstream vsFile, fsFile;
     
@@ -78,10 +79,12 @@ BaseShader::BaseShader(const char* vertexShaderFilepath, const char* fragmentSha
     glDeleteShader(fragment);
 }
 
-void BaseShader::useProgram() {
+void BaseShader::useProgram() 
+{
     glUseProgram(ID);
 }
 
-void BaseShader::deleteProgram() {
+void BaseShader::deleteProgram() 
+{
     glDeleteProgram(ID);
 }
